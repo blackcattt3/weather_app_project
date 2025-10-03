@@ -1,5 +1,8 @@
 <h2>🌤날씨앱 만들기 프로젝트 (React + OpenWeather API)</h2>
-
+<br>
+↓페이지 바로가기↓
+<h1>[text](https://mini-weathers.netlify.app)</h1>
+<br>
 <h3>📌프로젝트 소개</h3>
 실시간 날씨 앱을 React를 사용하여 만들었습니다.<br>
 현재 위치를 기반으로 온도와 날씨정보, 날씨 아이콘을 조회할수있고 주요도시들(Seoul, Tokyo, Paris, Iceland, Paris, New york)의 정보도 버튼을 클릭하여 도시별 날씨를 조회 할 수 있습니다.<br>
