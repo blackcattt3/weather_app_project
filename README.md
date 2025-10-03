@@ -1,7 +1,7 @@
 <h2>🌤날씨앱 만들기 프로젝트 (React + OpenWeather API)</h2>
 <br>
 ↓페이지 바로가기↓
-<h1>[text](https://mini-weathers.netlify.app)</h1>
+<h1>https://mini-weathers.netlify.app</h1>
 <br>
 <h3>📌프로젝트 소개</h3>
 실시간 날씨 앱을 React를 사용하여 만들었습니다.<br>
