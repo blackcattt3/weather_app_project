@@ -8,6 +8,15 @@
 현재 위치를 기반으로 온도와 날씨정보, 날씨 아이콘을 조회할수있고 주요도시들(Seoul, Tokyo, Iceland, Paris, New york)의 정보도 버튼을 클릭하여 도시별 날씨를 조회 할 수 있습니다.<br>
 날씨상태(맑음, 비, 구름, 눈 등)에 따라 배경화면이 동적으로 바뀌며 로딩중에는 화면 중앙에 로딩스피너가 표시됩니다.<br>
 <br>
+<h3>📂 폴더 구조</h3>
+src/<br>
+ ┣ 📂components<br>
+ ┃ ┣ 📜WeatherBox.jsx<br>
+ ┃ ┗ 📜WeatherButton.jsx<br>
+ ┣ 📜App.jsx<br>
+ ┣ 📜App.css<br>
+ ┗ 📜main.jsx<br>
+ <br>
 <h3>📌주요 기능</h3>
 ✅ 현재 위치 기반 날씨 조회 (Geolocation API 사용)<br>
 ✅ 도시 버튼 클릭 시 날씨 조회 (OpenWeather API 호출)<br>
