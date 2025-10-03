@@ -24,9 +24,18 @@
 ✅ Frontend: React (Hooks, useState, useEffect)<br>
 ✅ UI 라이브러리: React-Bootstrap, CSS<br>
 ✅ API: OpenWeather API<br>
-✅ 기타: React Spinners (로딩 UI)<br>
-
+✅ 기타: React Loading Spinners (로딩 UI)<br>
+<br>
+<h3>🚀 배포</h3>
+✅ Netlify를 통한 자동 배포 (GitHub 연동)<br>
+✅ 환경변수(.env) 관리 및 Netlify 환경변수 설정을 통해 API Key 보안 처리<br>
+✅ 배포 URL: https://mini-weathers.netlify.app<br>
 <br>
 <h3>💡개선 가능 포인트</h3>
-✅ 에러 처리 (예: "도시를 찾을 수 없습니다")<br>
-✅ 반응형 디스플레이 (모바일버전)<br>
+✅ 에러 처리 (예: "데이터를 불러올 수 없습니다.")<br>
+✅ 미디어쿼리를 이용한 반응형 디스플레이 (모바일버전)<br>
+<br>
+<br>
+<h3>✍️ 회고</h3>
+✓ React에서 useState, useEffect를 활용한 상태 관리와 fetch를 이용한 비동기 데이터 처리 흐름을 이해할 수 있었습니다.<br>
+✓ .env 환경변수와 Netlify 배포 경험을 통해 실제 서비스 배포를 경험해 볼 수 있었습니다.<br>
