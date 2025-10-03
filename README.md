@@ -48,5 +48,3 @@ src/<br>
 <h3>✍️ 회고</h3>
 ✓ React에서 useState, useEffect를 활용한 상태 관리와 fetch를 이용한 비동기 데이터 처리 흐름을 이해할 수 있었다.<br>
 ✓ .env 환경변수와 Netlify 배포 경험을 통해 실제 서비스 배포를 경험해 볼 수 있었다.<br>
-
-edit
