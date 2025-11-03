@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 
 const WeatherButton = ({cities, setCity, selectedCity, handleChangeCity}) => {
   return (
-    <div>
+    <div className='button-area'>
       <Button className={selectedCity===null?"active-button":""} onClick={()=>{handleChangeCity("current"), console.log("hi")}} variant="warning">Current Location</Button>
       {cities.map((item)=>(
         <Button className={selectedCity===item?"active-button":""} onClick={()=>{
