@@ -74,21 +74,13 @@ function App() {
   }
 
   const classifyWeatherGroup = (backgroundImageId)=>{
-    if(backgroundImageId>=200 && backgroundImageId<=299){
-      return "Thunderstorm"
-    } else if(backgroundImageId>=300 && backgroundImageId<=399){
-      return "Drizzle"
-    } else if(backgroundImageId>=500 && backgroundImageId<=599){
-      return "Rain"
-    } else if(backgroundImageId>=600 && backgroundImageId<=699){
-      return "Snow"
-    } else if(backgroundImageId>=700 && backgroundImageId<=799){
-      return "Mist"
-    } else if(backgroundImageId == 800){
-      return "Clear"
-    } else if(backgroundImageId>=801 && backgroundImageId<=899){
-      return "Clouds"
-    }
+    if(backgroundImageId>=200 && backgroundImageId<=299) return "Thunderstorm"
+    if(backgroundImageId>=300 && backgroundImageId<=399) return "Drizzle"
+    if(backgroundImageId>=500 && backgroundImageId<=599) return "Rain"
+    if(backgroundImageId>=600 && backgroundImageId<=699) return "Snow"
+    if(backgroundImageId>=700 && backgroundImageId<=799) return "Mist"
+    if(backgroundImageId == 800) return "Clear"
+    if(backgroundImageId>=801 && backgroundImageId<=899) return "Clouds"
   }
 
   return (
