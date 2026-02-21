@@ -19,13 +19,15 @@ function App() {
   const [loading, setLoading] = useState(true);
   const cities=["Seoul","Tokyo", "Iceland", "Paris", "New york"];
   
+
+
   useEffect(()=>{
     if(city === "" || city === null){
       getCurrentLocation();
     } else{
       getWeatherByButton(city)
     }
-  }, [city, backgroundImageId, weatherGroup]);
+  }, [city]);
 
 
   const handleChangeCity = (city)=>{
@@ -37,12 +39,27 @@ function App() {
   }
 
   const getCurrentLocation = ()=>{
+    setLoading(true);
+
+    const fallbackTimer = setTimeout(() => {
+    console.log("⏱️ geo slow -> fallback to Seoul");
+    getWeatherByButton("Seoul"); // ✅ 기본 도시로 먼저 보여주기
+  }, 3000); // 6초 정도 추천
+
     navigator.geolocation.getCurrentPosition((position) => {
+        clearTimeout(fallbackTimer);
         let lat = position.coords.latitude;
         let long = position.coords.longitude;
         getCurrentLocationWeather(lat, long);
         // console.log("lat",lat, "long", long);
-    });
+    },
+    (err) => {
+      clearTimeout(fallbackTimer);
+      console.log("geo error:", err);
+      getWeatherByButton("Seoul"); // ✅ 권한 실패면 기본 도시
+    },
+    { enableHighAccuracy: false, maximumAge: 60000, timeout: 10000 }
+    );
   }
 
   const getCurrentLocationWeather = async (lat, long)=>{
@@ -50,6 +67,14 @@ function App() {
     setLoading(true);
     const response = await fetch(url);
     const data = await response.json();
+
+    console.log("status", response.status);
+    console.log("ok", response.ok);
+    console.log("data", data);
+
+
+
+
     setWeather(data);
     setBackgroundImageId(data.weather[0].id);
     setWeatherGroup(classifyWeatherGroup(data.weather[0].id));
@@ -64,6 +89,12 @@ function App() {
     setLoading(true);
     const response = await fetch(url);
     const data = await response.json();
+
+    console.log("status", response.status);
+    console.log("ok", response.ok);
+    console.log("data", data);
+
+
     setWeather(data);
     setBackgroundImageId(data.weather[0].id);
     setWeatherGroup(classifyWeatherGroup(data.weather[0].id));
@@ -81,8 +112,23 @@ function App() {
     if(backgroundImageId>=700 && backgroundImageId<=799) return "Mist"
     if(backgroundImageId == 800) return "Clear"
     if(backgroundImageId>=801 && backgroundImageId<=899) return "Clouds"
+    // if(backgroundImageId>=200 && backgroundImageId<=299){
+    //   return "Thunderstorm"
+    // } else if(backgroundImageId>=300 && backgroundImageId<=399){
+    //   return "Drizzle"
+    // } else if(backgroundImageId>=500 && backgroundImageId<=599){
+    //   return "Rain"
+    // } else if(backgroundImageId>=600 && backgroundImageId<=699){
+    //   return "Snow"
+    // } else if(backgroundImageId>=700 && backgroundImageId<=799){
+    //   return "Mist"
+    // } else if(backgroundImageId == 800){
+    //   return "Clear"
+    // } else if(backgroundImageId>=801 && backgroundImageId<=899){
+    //   return "Clouds"
+    // }
+    
   }
-
   return (
     <div>
       {loading? <div className={`wrapper ${weatherGroup}`}>
