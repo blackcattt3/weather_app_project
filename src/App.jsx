@@ -16,8 +16,9 @@ function App() {
   const [city, setCity] = useState("");
   const [backgroundImageId, setBackgroundImageId] = useState("");
   const [weatherGroup, setWeatherGroup] = useState("");
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const cities=["Seoul","Tokyo", "Iceland", "Paris", "New york"];
+  const [status, setStatus] = useState('loading')
   
 
 
@@ -39,10 +40,12 @@ function App() {
   }
 
   const getCurrentLocation = ()=>{
-    setLoading(true);
+    // setLoading(true);
+    setStatus('loading');
 
     const fallbackTimer = setTimeout(() => {
     console.log("⏱️ geo slow -> fallback to Seoul");
+    setStatus('fallback');
     getWeatherByButton("Seoul"); // ✅ 기본 도시로 먼저 보여주기
   }, 3000); // 6초 정도 추천
 
@@ -55,7 +58,8 @@ function App() {
     },
     (err) => {
       clearTimeout(fallbackTimer);
-      console.log("geo error:", err);
+      console.log("geo error:", {code: err.code, message: err.message});
+      setStatus('fallback');
       getWeatherByButton("Seoul"); // ✅ 권한 실패면 기본 도시
     },
     { enableHighAccuracy: false, maximumAge: 60000, timeout: 10000 }
@@ -64,21 +68,39 @@ function App() {
 
   const getCurrentLocationWeather = async (lat, long)=>{
     let url = new URL(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&units=metric&lang=kr&appid=${apiKey}`);
-    setLoading(true);
-    const response = await fetch(url);
-    const data = await response.json();
+    setStatus('loading');
 
-    console.log("status", response.status);
-    console.log("ok", response.ok);
-    console.log("data", data);
+    try{
+      const response = await fetch(url);
+      const data = await response.json();
+
+      if (!response.ok || (data?.cod && String(data.cod) !== "200")) {
+        throw new Error(data?.message || `HTTP ${response.status}`);
+      }
+
+      setWeather(data);
+      setBackgroundImageId(data.weather[0].id);
+      setWeatherGroup(classifyWeatherGroup(data.weather[0].id));
+      setStatus('success');
+    } catch (e){
+      console.log("weather error:", e);
+      setStatus('error');
+    }
+
+    // const response = await fetch(url);
+    // const data = await response.json();
+
+    // console.log("status", response.status);
+    // console.log("ok", response.ok);
+    // console.log("data", data);
 
 
 
 
-    setWeather(data);
-    setBackgroundImageId(data.weather[0].id);
-    setWeatherGroup(classifyWeatherGroup(data.weather[0].id));
-    setLoading(false);
+    // setWeather(data);
+    // setBackgroundImageId(data.weather[0].id);
+    // setWeatherGroup(classifyWeatherGroup(data.weather[0].id));
+    // setLoading(false);
     // console.log(data);
     // console.log("bgi", backgroundImageId);
     // console.log(weatherGroup);
@@ -86,19 +108,34 @@ function App() {
   
   const getWeatherByButton = async (city)=>{
     let url = new URL(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&lang=kr&appid=${apiKey}`)
-    setLoading(true);
-    const response = await fetch(url);
-    const data = await response.json();
+    setStatus('loading');
 
-    console.log("status", response.status);
-    console.log("ok", response.ok);
-    console.log("data", data);
+    try{
+      const response = await fetch(url);
+      const data = await response.json();
+
+      if (!response.ok || (data?.cod && String(data.cod) !== "200")) {
+        throw new Error(data?.message || `HTTP ${response.status}`);
+      }
+      setWeather(data);
+      setBackgroundImageId(data.weather[0].id);
+      setWeatherGroup(classifyWeatherGroup(data.weather[0].id));
+      setStatus('success');
+    } catch (e) {
+      console.log("weather error:", e);
+      setStatus('error');
+    }
 
 
-    setWeather(data);
-    setBackgroundImageId(data.weather[0].id);
-    setWeatherGroup(classifyWeatherGroup(data.weather[0].id));
-    setLoading(false);
+    // console.log("status", response.status);
+    // console.log("ok", response.ok);
+    // console.log("data", data);
+
+
+    // setWeather(data);
+    // setBackgroundImageId(data.weather[0].id);
+    // setWeatherGroup(classifyWeatherGroup(data.weather[0].id));
+    // setStatus('success');
     // console.log(data);
     // console.log("bgi",backgroundImageId);
     // console.log(weatherGroup);
@@ -131,12 +168,30 @@ function App() {
   }
   return (
     <div>
-      {loading? <div className={`wrapper ${weatherGroup}`}>
+      {/* {loading? <div className={`wrapper ${weatherGroup}`}>
       <ClipLoader color='black' loading={loading} size={150}/></div>
       : <div className={`wrapper ${weatherGroup}`}>
       {weather && <WeatherBox weather={weather} backgroundImageId={backgroundImageId}/>}
         <WeatherButton cities={cities} setCity={setCity} selectedCity={city} handleChangeCity={handleChangeCity}/>
-      </div>}
+      </div>} */}
+      {(status === 'loading' || status === 'fallback') ? (
+      <div className={`wrapper ${weatherGroup}`}>
+        <ClipLoader color='black' loading={true} size={150}/>
+        {status === 'fallback' && (
+          <p style={{ marginTop: 12 }}>위치 응답이 지연되어 기본 도시(Seoul)로 표시 중…</p>
+        )}
+      </div>
+    ) : status === 'error' ? (
+      <div className="loading-screen">
+        <h2>‼️ 날씨 정보를 불러오지 못했습니다 ‼️</h2>
+        <button onClick={getCurrentLocation}>다시 시도</button>
+      </div>
+    ) : (
+      <div className={`wrapper ${weatherGroup}`}>
+        {weather && <WeatherBox weather={weather} backgroundImageId={backgroundImageId}/>}
+        <WeatherButton cities={cities} setCity={setCity} selectedCity={city} handleChangeCity={handleChangeCity}/>
+      </div>
+    )}
     </div>
   
   )
